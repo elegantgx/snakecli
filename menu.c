@@ -48,11 +48,8 @@ GameState menu (WINDOW *main_win, WINDOW *sentence_win, const Position ter_size)
     wrefresh(main_win);
     wrefresh(sentence_win);
 
-    //初始化选项
-    MenuState menu_selected_state = MENU_PLAY;
-
     //选择选项
-    menu_selected_state = select_option(sentence_win, menu_options_win, menu_options_label, 3, 0);
+    const MenuState menu_selected_state = select_option(sentence_win, menu_options_win, menu_options_label, 3, 0);
 
     switch (menu_selected_state) {
         case MENU_PLAY: {

@@ -272,17 +272,15 @@ static PlayState play_playing(WINDOW *main_win, WINDOW *sentence_win, WINDOW *sc
 }
 
 static PlayState play_paused(WINDOW *main_win, WINDOW *sentence_win, const Position ter_size, GameState *state) {
-    //选项
-    typedef enum {CONTINUE, RETURN} PlayMenuState;
-    PlayMenuState play_menu_state = CONTINUE;
-
-    PlayState play_state;
-
+    //绘制暂停提示
     nodelay(main_win, FALSE);
 
     wclear(sentence_win);
     print_center_window(sentence_win, "Paused");
     wrefresh(sentence_win);
+
+    //选择选项
+    typedef enum {CONTINUE, RETURN} PlayMenuState;
 
     WINDOW *play_option_win[2];
     const char *play_option_label[2] = {
@@ -291,7 +289,10 @@ static PlayState play_paused(WINDOW *main_win, WINDOW *sentence_win, const Posit
     };
     create_options_win(play_option_win, play_option_label, 2, ter_size);
 
-    play_menu_state = select_option(main_win, play_option_win, play_option_label, 2, 0);
+    const PlayMenuState play_menu_state = select_option(main_win, play_option_win, play_option_label, 2, 0);
+
+    //判断行为
+    PlayState play_state;
 
     switch (play_menu_state) {
         case CONTINUE:
