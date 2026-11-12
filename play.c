@@ -37,7 +37,7 @@ static int map_the_key_play(int input);
 static void draw_cell(WINDOW *win, Position cell_positon, chtype cell_color);
 
 //游戏状态
-static PlayState play_playing(WINDOW *main_win, WINDOW *sentence_win, WINDOW *score_win, SnakeCLI *snake_cli, Position ter_size, Position game_size, PlayDirection *play_direction);
+static PlayState play_playing(WINDOW *main_win, WINDOW *sentence_win, WINDOW *score_win, SnakeCLI *snake_cli, Position game_size, PlayDirection *play_direction);
 
 //暂停状态
 static PlayState play_paused(WINDOW *main_win, WINDOW *sentence_win, Position ter_size, GameState *state);
@@ -99,7 +99,7 @@ GameState play(WINDOW *main_win, WINDOW *sentence_win, const Position ter_size) 
 
         switch (play_state) {
             case PLAY_PLAYING:
-                play_state = play_playing(main_win, sentence_win, score_win, &snake_cli, ter_size, game_size, &play_direction);
+                play_state = play_playing(main_win, sentence_win, score_win, &snake_cli, game_size, &play_direction);
                 while (wgetch(main_win) != ERR) {} //在Cygwin平台，flushinp()存在BUG
                 break;
             case PLAY_PAUSED:
@@ -209,7 +209,7 @@ static void draw_cell(WINDOW *win, const Position cell_positon, const chtype cel
     mvwaddch(win, cell_positon.row + 1, cell_positon.col * 2 + 2, cell_color);
 }
 
-static PlayState play_playing(WINDOW *main_win, WINDOW *sentence_win, WINDOW *score_win, SnakeCLI *snake_cli, Position ter_size, const Position game_size, PlayDirection *play_direction) {
+static PlayState play_playing(WINDOW *main_win, WINDOW *sentence_win, WINDOW *score_win, SnakeCLI *snake_cli, const Position game_size, PlayDirection *play_direction) {
     //创建方向向量
     static const Position DELTA[] = {
         [UP] = {.row = -1, .col = 0},
