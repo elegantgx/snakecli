@@ -9,6 +9,7 @@
 
 #include <ncurses.h>
 
+#define ERROR (-1)
 #include "game.h"
 
 int check_command_mode(int argc, const char **argv);

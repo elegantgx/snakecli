@@ -115,7 +115,7 @@ GameState play(WINDOW *main_win, WINDOW *sentence_win, const Position ter_size) 
                 play_state = play_finished(main_win, sentence_win, &snake_cli, ter_size, &state);
                 break;
             default:
-                state = ERR;
+                state = ERROR;
                 goto cleanup;
         }
     }
@@ -132,7 +132,7 @@ static Position generate_apple_play(const SnakeCLI *snake_cli, const Position ga
     const int game_area = game_size.row  * game_size.col;
     Position *free_cells = malloc(sizeof(Position) * game_area);
 
-    Position apple = {.row = ERR, .col = ERR};
+    Position apple = {.row = ERROR, .col = ERROR};
 
     int i = 0;
     for (int r = 0; r < game_size.row; r++) {
@@ -253,7 +253,7 @@ static PlayState play_playing(WINDOW *main_win, WINDOW *sentence_win, WINDOW *sc
 
     //胜利
     if (snake_cli->len == CAP - 1) return PLAY_FINISHED;
-    if (snake_cli->apple.row == ERR) return PLAY_FINISHED;
+    if (snake_cli->apple.row == ERROR) return PLAY_FINISHED;
 
     render_snake_play(main_win, snake_cli);
     draw_cell(main_win, snake_cli->apple, APPLE_CELL);
@@ -303,8 +303,8 @@ static PlayState play_paused(WINDOW *main_win, WINDOW *sentence_win, const Posit
             *state = MENU;
             goto cleanup;
         default:
-            play_state = ERR;
-            *state = ERR;
+            play_state = ERROR;
+            *state = ERROR;
     }
 
     cleanup:
@@ -342,7 +342,7 @@ static PlayState play_finished(WINDOW *main_win, WINDOW *sentence_win, const Sna
 
     char msg[32]="";
 
-    if (snake_cli->len == CAP - 1 || snake_cli->apple.row == ERR) {
+    if (snake_cli->len == CAP - 1 || snake_cli->apple.row == ERROR) {
         snprintf(msg, sizeof msg, "You Win! Score: %d", snake_cli->len - 1);
         print_center_window(main_win, msg);
     }
@@ -370,8 +370,8 @@ static PlayState play_finished(WINDOW *main_win, WINDOW *sentence_win, const Sna
             play_state = PLAY_QUIT;
             goto cleanup;
         default:
-            play_state = ERR;
-            *state = ERR;
+            play_state = ERROR;
+            *state = ERROR;
     }
 
     cleanup:

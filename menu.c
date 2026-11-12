@@ -64,8 +64,12 @@ GameState menu (WINDOW *main_win, WINDOW *sentence_win, const Position ter_size)
         }
         case MENU_EXIT: {
             state = EXIT;
+            goto cleanup;
         }
+        default:
+            state = ERROR;
     }
+
     cleanup:
         wclear(menu_options_win[MENU_PLAY]);
         wclear(menu_options_win[MENU_ABOUT]);
